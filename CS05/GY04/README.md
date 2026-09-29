@@ -107,5 +107,6 @@ Készítsünk egy alkalmazás, ami segíségével kedvenc filmjeinkre tudunk ker
 </style>
 ```
 
-1. A `delete` gombra kattintva töröljük a megfelelő sort a táblázatból!
-2. A `car` osztályú cellára kattintva a cella kapja meg a `highlight` osztályt. Kattintáskor minden másik celláról el kell távolítani az osztályt!
+1. A `delete` gombra kattintva töröljük a megfelelő sort a táblázatból! HINT: ha cellára kattintok, melyik a legközelebbi elem hozzá? (`closest`)
+
+1. A `car` osztályú cellára kattintva a cella kapja meg a `highlight` osztályt. Kattintáskor minden másik celláról el kell távolítani az osztályt! HINT: hogyan tudom megnézni, hogy ez bizonyos stílusosztállyal rendelkező cellára kattintottam-e?
