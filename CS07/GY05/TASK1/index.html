@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Filmlista</h1>
+
+      <label for="filter">Szűrés cím szerint</label>
+      <input
+        id="filter"
+        type="text"
+        placeholder="Kezdj el gépelni…"
+        autocomplete="off"
+      />
+
+      <p class="muted"><span id="count">0</span> találat</p>
+
+      <ul id="movieList" aria-label="Film címek"></ul>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>

@@ -46,21 +46,21 @@ const container = document.querySelector("#movieList");
 
 // Ez volt az órai kód, direkt kommenzteztem ki, ez feltételezem megvan mindenkinek.
 // Alatta mutatok egy "elegánsabb" megoldást a feladatra, figyelve a kódszervezésre is
-// input.addEventListener("input", (event) => {
-//   // process
-//   const text = event.target.value.trim().toLowerCase();
-//   const filteredMovies = movies.filter((movie) =>
-//     movie.title.toLowerCase().includes(text),
-//   );
+input.addEventListener("input", (event) => {
+  // process
+  const text = event.target.value.trim().toLowerCase();
+  const filteredMovies = movies.filter((movie) =>
+    movie.title.toLowerCase().includes(text),
+  );
 
-//   // render
-//   container.innerHTML = "";
-//   filteredMovies.forEach((movie) => {
-//     const li = document.createElement("li");
-//     li.textContent = movie.title;
-//     container.appendChild(li);
-//   });
-// });
+  // render
+  container.innerHTML = "";
+  filteredMovies.forEach((movie) => {
+    const li = document.createElement("li");
+    li.textContent = movie.title;
+    container.appendChild(li);
+  });
+});
 
 // ============================================================
 // Ha szeretnénk "szépen" szervezni ezt a kódot, én lehet, hogy inkább a következőképpen implementálnám:

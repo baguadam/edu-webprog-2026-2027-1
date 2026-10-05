@@ -1,0 +1,102 @@
+@import "https://fonts.googleapis.com/css?family=Lato";
+
+body {
+    max-width: 720px;
+    margin: 40px auto;
+    padding: 0 16px;
+    font-family: Lato, sans-serif;
+    font-size: 20px;
+    line-height: 1.5;
+    background-color: #f4f6fa;
+    color: #25324a;
+}
+
+h1 {
+    margin-bottom: 24px;
+    font-size: 32px;
+    text-align: center;
+}
+
+#controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+select, button {
+    padding: 8px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font: inherit;
+    background-color: white;
+}
+
+button {
+    background-color: #315acb;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+    background-color: #2548a8;
+}
+
+select:disabled, button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+select:focus-visible, button:focus-visible {
+    outline: 3px solid #315acb;
+    outline-offset: 3px;
+}
+
+table {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto 24px;
+    border-collapse: collapse;
+    text-align: center;
+    background-color: white;
+}
+
+td {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #d7deea;
+    cursor: pointer;
+}
+
+td:hover:not(.played) {
+    background-color: #e9efff;
+}
+
+.played {
+    background-color: #315acb;
+    color: white;
+}
+
+span {
+    color: #315acb;
+    font-weight: bold;
+}
+
+#tasks {
+    display: none;
+    padding: 16px 24px;
+    border: 1px solid #d7deea;
+    border-radius: 8px;
+    background-color: white;
+}
+
+#tasks ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+#tasks li + li {
+    margin-top: 8px;
+}
