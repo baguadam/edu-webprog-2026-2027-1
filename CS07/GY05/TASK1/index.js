@@ -52,13 +52,24 @@ input.addEventListener("input", (event) => {
 
   // TODO - 1
   // "ürítsd" ki a "containert" jelenlegi tartalmát (HINT: innerHTML)
+  container.innerHTML = "";
 
   // TODO - 2
   // menj végig a filterezett filmeken:
   // - hozz létre mindegyikhez egy listaelemet
   // - a listaelem tartalma legyen a film címe
   // - fűzd be a filmet a "container"-be
+  filteredMovies.forEach((movie) => {
+    const li = document.createElement("li");
+    li.textContent = movie.title;
+    container.appendChild(li);
+  });
+
+  container.innerHTML = `
+    ${filteredMovies.map((movie) => `<li>${movie.title}</li>`).join("")}
+  `;
 
   // TODO - 3
   // határozd meg, hogy az adott keresésnél hány találat volt, írd be ezt a számot a "countSpan"-be
+  countSpan.textContent = filteredMovies.length;
 });
