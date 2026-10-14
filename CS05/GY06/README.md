@@ -1,4 +1,228 @@
+# Hasznos dolgok az órai kódra építve
+
+Összeszedek néhány fontos/érdekes dolgot, amik arra épülnek, amit órán néztünk, és hasznosak lehetnek, ha valamilyen `grid-based` projekten dolgoztok (például a beadandó).
+
+## Tömbök létrehozása - Array.from()
+
+Nyugodtan használhattok `Array.from()`-ot ha szeretnétek tömböket létrehozni. Ez akkor működik, ha _tömbszerű_ vagy _iterálható_ értékekből akarunk új tömböt. Különösen hasznos, ha meghatározott méretű tömbbel kívánunk dolgozni, amit szeretnénk inicializáláskor feltölteni:
+
+```js
+// PÉLDA - 1
+const numbers = Array.from({ length: 5 }, () => 0);
+// { length: 5 } --> meghatározza az új tömb hosszát
+// () => 0 --> map function, minden elemhez hozzárendeli az adott értéket
+
+console.log(numbers);
+// [0, 0, 0, 0, 0]
+
+// PÉLDA - 2
+const numbers = Array.from({ length: 5 }, (_, index) => index);
+
+console.log(numbers);
+// [0, 1, 2, 3, 4]
+```
+
+Alternatív módon az alábbit is csinálhatnám:
+
+```js
+const nums = Array(5).fill(0);
+// itt azt mondom, kérek egy 5-elemű tömböt: Array(5), amit feltöltök nullákkal: fill(0)
+```
+
+Még az elején beszéltünk arról, hogy JS-ben, amikor mátrixot mondunk, valójában tömbök tömbjére gondolunk:
+
+```js
+const matrix = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+];
+```
+
+Alapvetően - és nyilván ezt mindenki tudja - két for-ciklussan szoktunk ilyen "mátrixokat" létrehozni:
+
+```js
+const matrix = [];
+
+for (let i = 0; i < 3; i++) {
+  matrix.push([]);
+
+  for (let j = 0; j < 3; j++) {
+    matrix[i].push(0);
+  }
+}
+
+/*
+[
+  [0, 0, 0],
+  [0, 0, 0],
+  [0, 0, 0]
+]
+*/
+```
+
+Ugyanez `Array.from()` használatával:
+
+```js
+const matrix = Array.from({ length: 3 }, () => Array(3).fill(0));
+
+/*
+[
+  [0, 0, 0],
+  [0, 0, 0],
+  [0, 0, 0]
+]
+*/
+```
+
+## Spread operátor és destrukturálás
+
+A játékban a véletlenszerű pozíciókat előállító metódus egy kételemű tömböt ad vissza:
+
+```js
+// ...
+return [x, y];
+```
+
+Ezeket az értékeket többféleképpen használhatjuk:
+
+```js
+const position = [3, 7]; // a position változó egy kételemű tömb, position[0] = 3, position[1] = 7
+
+// a destruktuálás lehetővé teszi, hogy egy tömb elemeit egyetlen utastással külön változókba helyezzük:
+const [x, y] = position; // mivel a position egy kételemű tömb, "kicsomagolom" egy x és egy y változóba
+console.log(x); // 3
+console.log(y); // 7
+
+// ez egyébként működik objektumokra is:
+const person = {
+  name: "Matyi",
+  age: 24,
+  hasStrava: true,
+  greet: () function {
+    console.log("Hello, az én nevem: ", this.name);
+  }
+};
+
+// mintha azt mondanám, hogy kérem a person objectből ezt a két értéket:
+const { name, age } = person;
+console.log(name); // Matyi
+console.log(age); // 24
+
+/* ez ekvivalens azzal, mintha ezt mondanám:
+const name = person.name;
+const age = person.age;
+console.log(name);
+console.log(age);
+*/
+```
+
+A `spread` syntax segítségével egy tömb elemeit - azon felül, amit már láttunk korábban - átadhatjuk külön argumentumként egy függvénynek. Ebben a játékban ezt így használjuk a pozíciók random generálásakor:
+
+```js
+function add(a, b) {
+  return a + b;
+}
+
+const numbers = [5, 8];
+
+console.log(add(...numbers)); // 13
+
+// olyan, mintha azt mondanám:
+// add(numbers[0], numbers[1]);
+```
+
+## Map
+
+A `Map` _kulcs-érték_ párokat tárol. Hagyományos tömb esetén általában indexek alapján érjük el az elemeket. A `Map` nagy előnye a mi esetünkben itt, hogy a kulcsokkal können le tudjuk kérdezni, hogy létezik-e bizonyos elem, illetve gyorsan és hatékonyan kérhetjük azt el. Lásd: _algo tárgy_
+
+```js
+const students = new Map();
+
+students.set("anna", 5); // első paraméter: kulcs, második paraméter: érték
+students.set("bela", 4);
+
+console.log(students.get("anna")); // 5
+console.log(students.has("bela")); // true
+
+students.delete("bela"); // töröljük a "bela" kulcson lévő elemet
+
+/* Legfontosabb metódusok:
+set(key, value)   --> Elem hozzáadása vagy módosítása
+get(key)          --> Érték lekérdezése
+has(key)          --> Kulcs létezésének ellenőrzése
+delete(key)       --> Elem törlése
+clear()           --> Összes elem törlése
+values()          --> Tárolt értékek bejárása, visszaadja az értékeket tömbként
+size              --> Elemek száma (tulajdonság)
+*/
+```
+
+## Időzítők
+
+A játék továbbfejlesztése során szükségünk lehet _időben késleltetett_ vagy _rendszeresen ismétlődő_ műveletekre. A JS ehhez két fontos idősítőfüggvényt biztosít:
+
+- `setTimeout()` - egy függvényt egyszer hajt végre meghatározott késleltetés után.
+- `setInterval()` - egy függvényt ismétlődően hív meg meghatározott időközönként.
+
+Mindkét függvénnyel _ezredmásodpercben_ adhatjuk meg az időt, tehát `1000 ms = 1 s`
+
+### setTimeout() - egyszeri késleltetés
+
+```js
+console.log("Játék indítása");
+
+setTimeout(() => {
+  console.log("Eltelt 3 másodperc!");
+}, 3000);
+
+console.log("A program tovább fut");
+```
+
+A program először tehát kiírja a játék indítását, majd a "program tovább fut" üzenetet. A késleltetett üzenet csak később jelenik meg. **Fontos**, hogy a `setTimeout()` nem állítja meg a teljes program futását.
+
+### setInterval() - ismétlődő végrehajtás
+
+```js
+setInterval(() => {
+  console.log("Eltelt egy másodperc");
+}, 1000);
+```
+
+A függvény körülbelül másodpercenként kiír egy üzenetet. Ezt később felhasználhatjuk például arra, hogy tudjuk a rendőrt mozgatni automatikusan:
+
+```js
+this.copTimer = setInterval(() => {
+  this.moveCop(); // lépjen a rendőr
+  this.render(); // rajzoljuk újra a pályát
+}, 1000);
+```
+
+A `setInterval` visszatérési értéke eltárolható, majd felhasználható az időzítő leállítására/megszűntetésére:
+
+```js
+const timer = setInterval(() => {
+  console.log("Ketyeg...");
+}, 1000);
+
+clearInterval(timer);
+```
+
+A játékban például a végén leállíthatjuk majd a rendőr mozgását:
+
+```js
+stop() {
+  this.running = false;
+  clearInterval(this.copTimer);
+  this.copTimer = null;
+}
+```
+
 # Maci-Laci
+
+![Game loop](loop.png)
+
+![Game classes](game.png)
 
 A gyakorlaton a "jól ismer" Maci-Laci játékot fogjuk elkészíteni. Az alap cél, hogy dinamikusan le tudjuk generálni a játéktáblát, a játékos képes legyen lépkedni a táblán, pontokat tudjon gyűjteni azáltal, hogy összeszedi a lehelyezett objektumokat. Mindeközben pedig egy rendőr járőrözik a játéktáblán, másodpercneként lépve egyet. Ha Maci-Laci és a rendőr találkoznak, akkor a játék végetér vereséggel. Ha begyűjötttük az összes objektumot, akkor pedig mi győztünk!
 
