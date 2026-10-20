@@ -233,6 +233,26 @@ class Game {
       this.collectibles.set(`${x}${y}`, new Collectible(x, y));
     }
 
+    this.copTimer = setInterVal(() => this.moveCop(), 1000);
+    console.log(this.copTimer);
+    this.render();
+  }
+
+  moveCop() {
+    const dirs = [
+      [-1, 0],
+      [1, 0],
+      [0, -1],
+      [0, 1],
+    ];
+
+    const idx = Math.floor(Math.random() * 4);
+    const [dx, dy] = dirs[idx];
+    const newX = this.cop.x + dx;
+    const newY = this.cop.y + dy;
+
+    console.log(newX, newY);
+    this.cop.setPosition(newX, newY);
     this.render();
   }
 }
@@ -243,4 +263,6 @@ class Game {
 const root = document.querySelector("#grid");
 const statusEl = document.querySelector("#status");
 const game = new Game(10, root, statusEl, 5);
-game.start();
+
+const startButton = document.querySelector("#start-btn");
+startButton.addEventListener("click", () => game.start());
