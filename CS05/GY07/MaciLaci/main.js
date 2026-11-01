@@ -222,7 +222,8 @@ class Game {
     A játék inicializálásért felel. Létrehozza az entitásokat, elhelyezi őket random pozíciókban, true-ra állítja a runningot, rederel.
     Később minden incializálás itt lesz, ami még hiányzik.
   */
-  start() {
+  start = () => {
+    console.log(this);
     this.running = true;
 
     // const [x, y] = this.getRandomEmptyPosition();
@@ -233,8 +234,46 @@ class Game {
       this.collectibles.set(`${x}${y}`, new Collectible(x, y));
     }
 
+    this.copTimer = setInterval(this.move, 1000);
     this.render();
-  }
+  };
+
+  stop = () => {
+    clearInterval(this.copTimer);
+  };
+
+  move = () => {
+    const dirs = [
+      [-1, 0],
+      [1, 0],
+      [0, -1],
+      [0, 1],
+    ];
+
+    const randomIdx = Math.floor(Math.random() * dirs.length);
+    const [dx, dy] = dirs[randomIdx];
+    const newX = this.cop.x + dx;
+    const newY = this.cop.y + dy;
+    this.cop.setPosition(newX, newY);
+    this.render();
+  };
+
+  save = () => {
+    const gameState = {
+      name: "Ádám",
+      size: this.size,
+      player: this.player,
+      cop: this.cop,
+      collectibles: this.collectibles,
+    };
+
+    localStorage.setItem("game", JSON.stringify(gameState));
+  };
+
+  load = () => {
+    const gameState = JSON.parse(localStorage.getItem("game"));
+    console.log(gameState);
+  };
 }
 
 // =======================================
@@ -243,9 +282,13 @@ class Game {
 const root = document.querySelector("#grid");
 const statusEl = document.querySelector("#status");
 const game = new Game(10, root, statusEl, 5);
-game.start();
 
 const startButton = document.querySelector("#start-btn");
 const stopButton = document.querySelector("#stop-btn");
 const saveButton = document.querySelector("#save-btn");
 const loadButton = document.querySelector("#load-btn");
+
+startButton.addEventListener("click", game.start);
+stopButton.addEventListener("click", game.stop);
+saveButton.addEventListener("click", game.save);
+loadButton.addEventListener("click", game.load);
