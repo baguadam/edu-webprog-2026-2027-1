@@ -1,0 +1,3 @@
+- a hibás mezők kapjanak egy általád preferált CSS stílusosztályt!
+- a marketing csapat szeretné, ha egy speciális hivatkozás segítségével előre ki lehetne választani az utazási dátumokat. Így például kellen egy link az oldalra, amivel GET-kérés keresztül küldünk egy dátumot!
+- sikeres poszt feldolgozás után történjen meg egy átirányítás, és a köszönőüznete külön oldalon jelenjen meg!
